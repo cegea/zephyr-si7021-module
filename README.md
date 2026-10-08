@@ -29,3 +29,11 @@ zephyr-si7021-module/           # Raíz de tu repositorio Git
         └── src/
             └── main.c          # Tu aplicación usando sensor_sample_fetch()
 ```
+
+## Doc de referencia
+- zephyrproject-rtos/example-application en GitHub:
+    - Ejemplo: `drivers/sensor/examplesensor` contiene `module.yml`, bindings y Kconfig.
+
+## Ficheros involucrados y su función
+
+### zephyr/module.yml 
