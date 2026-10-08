@@ -1,7 +1,6 @@
-name: zephyr-si7021-module
-build:
-  kconfig: Kconfig # indica el path al fichero
-  cmake: ./zephyr/drivers/sensor # carpeta cmake esta en el mismo nivel
-  settings:
-    board_root: ./zephyr/ # igual, está en root del repo
-    dts_root: ./zephyr/ # igual
+name: si7021 # importante porque genera ZEPHYR_SI7021_MODULE_DIR
+build: # define como se integra el módulo en el build
+  kconfig: zephyr/Kconfig # indica el path al fichero de entrada
+  cmake: zephyr/drivers/sensor # apunta al cmake que compila el driver
+  settings: # rutas extra de búsqueda
+    dts_root: zephyr/ # apunta a los bindings
