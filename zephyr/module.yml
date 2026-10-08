@@ -1,0 +1,7 @@
+name: zephyr-si7021-module
+build:
+  kconfig: Kconfig # indica el path al fichero
+  cmake: ./zephyr/drivers/sensor # carpeta cmake esta en el mismo nivel
+  settings:
+    board_root: ./zephyr/ # igual, está en root del repo
+    dts_root: ./zephyr/ # igual
