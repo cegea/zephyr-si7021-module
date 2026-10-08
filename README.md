@@ -5,7 +5,7 @@ This repo is intended for learning Zephyr as part of the Embedded Platforms cour
 ## Arquitectura del repo
 
 Esta arquitectura permite a zephyr importar este repo como el sensor.
-
+```
 zephyr-si7021-module/           # Raíz de tu repositorio Git
 ├── README.md                   # Documentación y guía de uso
 ├── zephyr/                     # Carpeta de integración obligatoria para Zephyr
@@ -28,3 +28,4 @@ zephyr-si7021-module/           # Raíz de tu repositorio Git
         ├── app.overlay         # Mapeo del sensor al bus I2C de la placa
         └── src/
             └── main.c          # Tu aplicación usando sensor_sample_fetch()
+```
