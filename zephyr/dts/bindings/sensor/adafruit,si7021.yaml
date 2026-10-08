@@ -1,7 +1,3 @@
-description: Si7021 driver module
-compatible: adafruit,si7021
-include: [base.yaml, power.yaml]
-on-bus: i2c # para nodos hijos de un controlador i2c
-properties:
-  reg:
-    required: true # esto requiere que se pida el addrr i2c del sensor
+description: "Silicon Labs Si7021 humidity and temperature sensor (Adafruit breakout)"
+compatible: "adafruit,si7021"
+include: [sensor-device.yaml, i2c-device.yaml]
