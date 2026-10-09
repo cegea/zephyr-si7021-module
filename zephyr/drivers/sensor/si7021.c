@@ -30,7 +30,7 @@ static int si7021_channel_get(const struct device *dev,
 {
 	struct si7021_data *data = dev->data;
 
-    return -ENOTSUP; // hasta completar con SENSOR_CHAN_AMBIENT_TEMP y SENSOR_CHAN_HUMIDITY
+	return -ENOTSUP; // hasta completar con SENSOR_CHAN_AMBIENT_TEMP y SENSOR_CHAN_HUMIDITY
 }
 
 static DEVICE_API(sensor, si7021_api) = {
@@ -42,24 +42,22 @@ static int si7021_init(const struct device *dev)
 {
 	const struct si7021_config *config = dev->config;
 
-	int ret;
-
 	if (!i2c_is_ready_dt(&config->i2c)) {
-		LOG_ERR("Input GPIO not ready");
+		LOG_ERR("I2C not ready");
 		return -ENODEV;
 	}
 
 	return 0;
 }
 
-#define si7021_INIT(i)						       \
+#define SI7021_INIT(i)						       \
 	static struct si7021_data si7021_data_##i;	       \
 									       \
 	static const struct si7021_config si7021_config_##i = {\
 		.i2c = I2C_DT_SPEC_INST_GET(i),		       \
 	};								       \
 									       \
-	DEVICE_DT_INST_DEFINE(i, si7021_init, NULL,		       \
+	SENSOR_DEVICE_DT_INST_DEFINE(i, si7021_init, NULL,		       \
 			      &si7021_data_##i,			       \
 			      &si7021_config_##i, POST_KERNEL,	       \
 			      CONFIG_SENSOR_INIT_PRIORITY, &si7021_api);
