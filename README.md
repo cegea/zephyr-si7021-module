@@ -35,6 +35,13 @@ zephyr-si7021-module/           # Raíz de tu repositorio Git
     - Ejemplo: `drivers/sensor/examplesensor` contiene `module.yml`, bindings y Kconfig.
 
 ## Ficheros involucrados y su función
+Cadena de activación:
+```
+app.overlay: nodo compatible="adafruit,si7021", status okay
+  └─► binding (dts_root) valida el nodo → genera DT_HAS_ADAFRUIT_SI7021_ENABLED
+        └─► Kconfig: CONFIG_SI7021 = SENSOR && DT_HAS_... (default y)
+              └─► CMake: if(CONFIG_SI7021) → compila si7021.c
+```
 
 ### zephyr/module.yml 
 
@@ -48,3 +55,8 @@ El binding es el esquema de ese nodo: qué propiedades admite, cuales son obliga
 
 En este fichero se indica lo que se compila. Para este driver solo entrará en el build si `CONFIG_SI7021=y`.
 Este símbolo se comprobará con CMake con `add_subdirectory_ifdef(CONFIG_SI7021 ...)` 
+
+### zephyr/drivers/sensor/CMakeLists.txt
+
+Compila `si7021.c` como una librería de Zephyr (`zephyr_library()`), solo si `CONFIG_SI7021=y`.
+
