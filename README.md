@@ -60,3 +60,6 @@ Este símbolo se comprobará con CMake con `add_subdirectory_ifdef(CONFIG_SI7021
 
 Compila `si7021.c` como una librería de Zephyr (`zephyr_library()`), solo si `CONFIG_SI7021=y`.
 
+### samples/si7021_polling/CMakeLists.txt
+
+Es el CMakeLists de la app. Que `west build` recibe como punto de entrada.
