@@ -1,0 +1,16 @@
+/* El Si7021 cuelga del I2C del conector Arduino R3 (SDA = D14, SCL = D15).
+ * arduino_i2c es una etiqueta de conector: cada placa la pone sobre su propio
+ * controlador (en la nucleo_wl55jc es i2c2 = i2c@40005800, PA11/PA12), así que
+ * esta overlay sirve sin cambios en cualquier placa con conector Arduino.
+ * &etiqueta modifica un nodo existente; aquí solo se le añade un hijo.
+ */
+&arduino_i2c {
+	/* nombre@unit-address: la unit-address debe coincidir con reg */
+	si7021@40 {
+		/* Empareja el nodo con zephyr/dts/bindings/sensor/adafruit,si7021.yaml */
+		compatible = "adafruit,si7021";
+		/* Dirección I2C de 7 bits del Si7021 (fija, 0x40). Obligatoria por
+		 * i2c-device.yaml, que incluye el binding. */
+		reg = <0x40>;
+	};
+};
