@@ -1,4 +1,4 @@
-#define DT_DRV_COMPAT zephyr_si7021
+#define DT_DRV_COMPAT adadruit_si7021
 
 #include <zephyr/device.h>
 #include <zephyr/drivers/i2c.h>
@@ -62,4 +62,4 @@ static int si7021_init(const struct device *dev)
 			      &si7021_config_##i, POST_KERNEL,	       \
 			      CONFIG_SENSOR_INIT_PRIORITY, &si7021_api);
 
-DT_INST_FOREACH_STATUS_OKAY(si7021_INIT)
+DT_INST_FOREACH_STATUS_OKAY(SI7021_INIT)
