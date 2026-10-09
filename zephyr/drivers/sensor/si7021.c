@@ -12,7 +12,7 @@ struct si7021_data {
 };
 
 struct si7021_config {
-	struct i2c_dt_spec input;
+	struct i2c_dt_spec i2c;
 };
 
 static int si7021_sample_fetch(const struct device *dev,
@@ -44,7 +44,7 @@ static int si7021_init(const struct device *dev)
 
 	int ret;
 
-	if (!i2c_is_ready_dt(config->i2c)) {
+	if (!i2c_is_ready_dt(&config->i2c)) {
 		LOG_ERR("Input GPIO not ready");
 		return -ENODEV;
 	}
