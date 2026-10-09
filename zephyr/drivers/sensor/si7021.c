@@ -1,4 +1,4 @@
-#define DT_DRV_COMPAT adadruit_si7021
+#define DT_DRV_COMPAT adafruit_si7021
 
 #include <zephyr/device.h>
 #include <zephyr/drivers/i2c.h>
