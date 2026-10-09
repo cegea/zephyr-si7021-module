@@ -43,4 +43,8 @@ zephyr-si7021-module/           # Raíz de tu repositorio Git
 El DT (`app.overlay`) declara que hay un dispositivo `compatible = "adafruit,si7021"` en una dirección I2C.
 
 El binding es el esquema de ese nodo: qué propiedades admite, cuales son obligatorias y de qué tipo. Al configurar, el build busca un binding cuyo `compatible` coincida con el del nodo. Si no lo encuentra, el nodo no recibe macros`DT_*` útiles, no genera`DT_HAS_ADAFRUIT_SI7021_ENABLED` y el driver nunca se compila.
- 
+
+### Kconfig
+
+En este fichero se indica lo que se compila. Para este driver solo entrará en el build si `CONFIG_SI7021=y`.
+Este símbolo se comprobará con CMake con `add_subdirectory_ifdef(CONFIG_SI7021 ...)` 
