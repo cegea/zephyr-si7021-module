@@ -1,6 +1,8 @@
+#include <string.h>
+#include <sys/errno.h>
 #define DT_DRV_COMPAT adafruit_si7021
 
-#include <si7021.h>
+#include "si7021.h"
 #include <zephyr/device.h>
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/drivers/sensor.h>
@@ -32,15 +34,23 @@ static DEVICE_API(sensor, si7021_api) = {
 
 static int si7021_init(const struct device *dev) {
   const struct si7021_config *config = dev->config;
+  uint8_t buff[2] = {0x84, 0xB8};
+  uint8_t expected_id = SI7021_ID;
 
   if (!i2c_is_ready_dt(&config->i2c)) {
     LOG_ERR("I2C not ready");
-    return -ENODEV;
   }
 
-  LOG_DBG("si7021 ok");
+  if (0 == i2c_write_read_dt(&config->i2c, &buff, 2, &buff, 2)) {
+    LOG_ERR("I2C Error");
+  }
 
-  return 0;
+  if (0 == memcmp(buff, &expected_id, 1)) {
+    LOG_DBG("si7021 ok");
+    return 0;
+  }
+
+  return -ENODEV;
 }
 
 #define SI7021_INIT(i)                                                         \

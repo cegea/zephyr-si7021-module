@@ -20,12 +20,12 @@
 
 #define SI7021_ID 0x15
 
-typedef struct {
+struct si7021_data {
   uint16_t raw_rh;
   uint16_t raw_t;
-} raw_data;
+};
 
-struct si_7021_config {
+struct si7021_config {
   struct i2c_dt_spec i2c;
 };
 
