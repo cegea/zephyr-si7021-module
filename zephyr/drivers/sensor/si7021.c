@@ -34,18 +34,24 @@ static DEVICE_API(sensor, si7021_api) = {
 
 static int si7021_init(const struct device *dev) {
   const struct si7021_config *config = dev->config;
-  uint8_t buff[2] = {0x84, 0xB8};
+  uint8_t buff[2] = {0xFA, 0x0F};
   uint8_t expected_id = SI7021_ID;
+  int err = 0;
 
+  LOG_DBG("I2C init");
   if (!i2c_is_ready_dt(&config->i2c)) {
     LOG_ERR("I2C not ready");
+    return -ENODEV;
   }
 
-  if (0 == i2c_write_read_dt(&config->i2c, &buff, 2, &buff, 2)) {
-    LOG_ERR("I2C Error");
+  LOG_DBG("I2C ready");
+  err = i2c_write_read_dt(&config->i2c, &buff, 2, &buff, 2);
+  if (0 > err) {
+    LOG_ERR("I2C Error, response: %i", err);
+    return -ENODEV;
   }
 
-  if (0 == memcmp(buff, &expected_id, 1)) {
+  if (0 == memcmp(&buff[0], &expected_id, 1)) {
     LOG_DBG("si7021 ok");
     return 0;
   }
