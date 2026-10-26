@@ -1,7 +1,5 @@
-#include "zephyr/kernel.h"
 #include <stdint.h>
-#include <string.h>
-#include <sys/errno.h>
+#include <zephyr/kernel.h>
 #define DT_DRV_COMPAT adafruit_si7021
 
 #include "si7021.h"
@@ -45,13 +43,13 @@ static int si7021_who_am_i(const struct device *dev) {
   err = i2c_write_read_dt(&config->i2c, cmd_first_byte, 2, rx, 3);
   if (0 > err) {
     LOG_ERR("I2C Error, response: %i", err);
-    return -ENODEV;
+    return err;
   }
 
   err = i2c_write_read_dt(&config->i2c, cmd_second_byte, 2, rx, 3);
   if (0 > err) {
     LOG_ERR("I2C Error, response: %i", err);
-    return -ENODEV;
+    return err;
   }
 
   if (rx[0] != expected_id) {
@@ -76,6 +74,7 @@ static int si7021_init(const struct device *dev) {
   err = i2c_write_dt(&config->i2c, &rst_cmd, 1);
   if (err < 0) {
     LOG_ERR("cannot reset sensor");
+    return -ENODEV;
   }
 
   k_msleep(15); // See datasheet for after reset max delay time
