@@ -87,7 +87,7 @@ static int si7021_channel_get(const struct device *dev,
 
     } else if (hum > 100000000) {
 
-      hum = 1000000000;
+      hum = 100000000;
     }
     return sensor_value_from_micro(val, hum);
     break;
