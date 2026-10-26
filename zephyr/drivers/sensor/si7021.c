@@ -67,32 +67,35 @@ static int si7021_channel_get(const struct device *dev,
                               enum sensor_channel chan,
                               struct sensor_value *val) {
   struct si7021_data *data = dev->data;
-  int32_t temp, hum;
+  int64_t temp, hum;
 
   switch (chan) {
 
   case SENSOR_CHAN_AMBIENT_TEMP:
-    temp = 175.72f * data->raw_t;
+    temp = (int64_t)175720000 * data->raw_t;
     temp = temp >> 16;
-    temp = temp - 46.85;
-    val->val1 = temp;
+    temp = temp - 46850000;
+    return sensor_value_from_micro(val, temp);
     break;
 
   case SENSOR_CHAN_HUMIDITY:
-    hum = 125 * data->raw_rh;
+    hum = (int64_t)125000000 * data->raw_rh;
     hum = hum >> 16;
-    hum = hum - 6;
-    val->val2 = hum;
+    hum = hum - (int64_t)6000000;
+    if (hum < 0) {
+      hum = 0;
+
+    } else if (hum > 100000000) {
+
+      hum = 1000000000;
+    }
+    return sensor_value_from_micro(val, hum);
     break;
 
   default:
-    return -ENOTSUP; // hasta completar con SENSOR_CHAN_AMBIENT_TEMP y
+    return -ENOTSUP;
     break;
   }
-
-  return sensor_value_to_float(
-      val); // hasta completar con SENSOR_CHAN_AMBIENT_TEMP y
-            // SENSOR_CHAN_HUMIDITY
 }
 
 static DEVICE_API(sensor, si7021_api) = {

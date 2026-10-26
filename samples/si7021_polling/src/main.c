@@ -11,18 +11,8 @@
 #include <zephyr/sys/printk.h>
 
 int main(void) {
-  /* Se resuelve en tiempo de compilación: busca la única instancia con
-   * compatible "adafruit,si7021" (en forma de identificador, como
-   * DT_DRV_COMPAT). Si el driver no ha creado el dispositivo (nodo ausente,
-   * CONFIG_SI7021=n, DT_DRV_COMPAT mal escrito...), el build falla al
-   * enlazar en vez de fallar en silencio.
-   */
   const struct device *const dev = DEVICE_DT_GET_ONE(adafruit_si7021);
 
-  /* Se comprueba en tiempo de ejecución: false si si7021_init devolvió
-   * error. Ojo: ahora mismo init solo comprueba el bus I2C del micro, así
-   * que esto sale true aunque el sensor no esté conectado.
-   */
   int err = 0;
   struct sensor_value temp;
 
@@ -40,9 +30,9 @@ int main(void) {
     }
 
     err = sensor_channel_get(dev, SENSOR_CHAN_AMBIENT_TEMP, &temp);
-    printk("temp: %d\n", temp.val1);
+    printk("temp: %f\n", sensor_value_to_double(&temp));
     err = sensor_channel_get(dev, SENSOR_CHAN_HUMIDITY, &temp);
-    printk("hum: %d\n", temp.val2);
+    printk("hum: %f\n", sensor_value_to_double(&temp));
 
     k_sleep(K_SECONDS(2));
   }
