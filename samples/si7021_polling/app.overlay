@@ -5,7 +5,7 @@
  * &etiqueta modifica un nodo existente; aquí solo se le añade un hijo.
  */
 &arduino_i2c {
-  clock-frequency = <I2C_BITRATE_STANDARD>;
+  //clock-frequency = <I2C_BITRATE_STANDARD>;
 	/* nombre@unit-address: la unit-address debe coincidir con reg */
 	si7021@40 {
 		/* Empareja el nodo con zephyr/dts/bindings/sensor/adafruit,si7021.yaml */

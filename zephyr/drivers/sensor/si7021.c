@@ -12,14 +12,55 @@ LOG_MODULE_REGISTER(si7021, CONFIG_SENSOR_LOG_LEVEL);
 
 static int si7021_cmd_read_u16(const struct si7021_config *cfg, uint8_t cmd,
                                int32_t conversion_time_ms, bool crc,
-                               uint16_t *data) {}
+                               uint16_t *data) {
+  uint8_t rx[3] = {0};
+  int err = 0;
+
+  if (conversion_time_ms > 0) {
+    err = i2c_write_dt(&cfg->i2c, &cmd, 1);
+    if (err < 0) {
+      return err;
+    }
+    k_msleep(conversion_time_ms);
+
+    err = i2c_read_dt(&cfg->i2c, rx, 2);
+    if (err < 0) {
+      return err;
+    }
+    *data = (rx[0] << 8) + rx[1];
+
+  } else {
+    err = i2c_write_read_dt(&cfg->i2c, &cmd, 1, data, 2);
+    if (err < 0) {
+      return err;
+    }
+  }
+  return 0;
+}
 
 static int si7021_sample_fetch(const struct device *dev,
                                enum sensor_channel chan) {
   const struct si7021_config *config = dev->config;
   struct si7021_data *data = dev->data;
+  int err = 0;
 
-  return -ENOTSUP;
+  err = si7021_cmd_read_u16(config, SI7021_CMD_MEAS_RH_NOHOLD, 25, true,
+                            &data->raw_rh);
+  if (err < 0) {
+    LOG_ERR("RH measure %d", err);
+    return err;
+  }
+
+  err = si7021_cmd_read_u16(config, SI7021_CMD_MEAS_T_NOHOLD, 25, true,
+                            &data->raw_t);
+  if (err < 0) {
+    LOG_ERR("T measure %d", err);
+    return err;
+  }
+
+  LOG_DBG("raw RH 0x%04x, raw T 0x%04x", data->raw_rh, data->raw_t);
+
+  return 0;
 }
 
 static int si7021_channel_get(const struct device *dev,
