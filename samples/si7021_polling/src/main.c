@@ -23,6 +23,9 @@ int main(void) {
    * error. Ojo: ahora mismo init solo comprueba el bus I2C del micro, así
    * que esto sale true aunque el sensor no esté conectado.
    */
+  int err = 0;
+  struct sensor_value temp;
+
   if (!device_is_ready(dev)) {
     printk("Dispositivo %s no está listo\n", dev->name);
     return 0;
@@ -31,7 +34,17 @@ int main(void) {
   printk("Dispositivo %s listo\n", dev->name);
 
   while (1) {
-    sensor_sample_fetch(dev);
+    err = sensor_sample_fetch(dev);
+    if (err < 0) {
+      printk("fetch: %d\n", err);
+    }
+
+    err = sensor_channel_get(dev, SENSOR_CHAN_AMBIENT_TEMP, &temp);
+    printk("temp: %d\n", temp.val1);
+    err = sensor_channel_get(dev, SENSOR_CHAN_HUMIDITY, &temp);
+    printk("hum: %d\n", temp.val2);
+
+    k_sleep(K_SECONDS(2));
   }
 
   return 0;
