@@ -10,6 +10,10 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(si7021, CONFIG_SENSOR_LOG_LEVEL);
 
+static int si7021_cmd_read_u16(const struct si7021_config *cfg, uint8_t cmd,
+                               int32_t conversion_time_ms, bool crc,
+                               uint16_t *data) {}
+
 static int si7021_sample_fetch(const struct device *dev,
                                enum sensor_channel chan) {
   const struct si7021_config *config = dev->config;
