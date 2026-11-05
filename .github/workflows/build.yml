@@ -4,7 +4,18 @@
 # reducido a Ubuntu.
 name: Build
 
-on: [push, pull_request]
+# En todas las ramas: el mirror las copia todas y los PR viven en Codeberg,
+# así que esta es la única CI que ve una rama antes de fusionarla.
+# paths-ignore: un push que solo toca .md no compila (si toca código también,
+# se ejecuta igual). workflow_dispatch: botón "Run workflow" para lanzarla a mano.
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  workflow_dispatch:
 
 # El job solo necesita leer el repo.
 permissions:

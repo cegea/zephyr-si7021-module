@@ -1,5 +1,7 @@
 # Zephyr Si7021 Module
 
+[![Build](https://github.com/cegea/zephyr-si7021-module/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/cegea/zephyr-si7021-module/actions/workflows/build.yml)
+
 This repo is intended for learning Zephyr as part of the Embedded Platforms course of the Master IoT from UPM.
 
 ## Arquitectura del repo
