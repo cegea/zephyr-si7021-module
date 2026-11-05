@@ -1,0 +1,18 @@
+# Metadatos para twister: sin este fichero, twister no considera esta carpeta
+# una sample y no la compila. Referencia: zephyr/samples/sensor/dht_polling.
+sample:
+  name: Si7021 polling sample
+  description: Reads temperature and humidity from an Si7021 over I2C
+tests:
+  # Identificador del escenario; twister lo muestra en los informes.
+  sample.sensor.si7021_polling:
+    # En CI no hay sensor conectado: solo se comprueba que compila y enlaza.
+    build_only: true
+    tags: sensors
+    # app.overlay usa &arduino_i2c, así que solo sirve en placas con conector
+    # Arduino. Se limita a la placa del curso.
+    platform_allow:
+      - nucleo_wl55jc
+    # Placas que se usan con --integration (lo que corre la CI).
+    integration_platforms:
+      - nucleo_wl55jc

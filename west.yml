@@ -1,0 +1,23 @@
+# Manifest para cuando este módulo es el repo del manifest (topología T2),
+# como en la CI: action-zephyr-setup hace `west init -l` sobre este repo y
+# `west update` descarga lo que se lista aquí.
+#
+# En el workspace local (T1) este fichero no se lee: allí el manifest es
+# zephyr/west.yml y el módulo entra por EXTRA_ZEPHYR_MODULES en el CMake de
+# la sample. Basado en zephyrproject-rtos/example-application.
+manifest:
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      # La misma versión que el workspace local (`git describe` en zephyr/).
+      revision: v4.4.2
+      import:
+        # Solo los módulos que necesita nucleo_wl55jc, en vez de los ~80 del
+        # manifest de Zephyr: menos descarga en cada ejecución de la CI.
+        name-allowlist:
+          - cmsis_6   # port ARM Cortex-M
+          - hal_stm32 # HAL y pinctrl de STM32
