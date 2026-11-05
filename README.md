@@ -1,6 +1,9 @@
 # Zephyr Si7021 Module
 
 [![Build](https://github.com/cegea/zephyr-si7021-module/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/cegea/zephyr-si7021-module/actions/workflows/build.yml)
+[![Zephyr](https://img.shields.io/badge/Zephyr-v4.4.2-blue)](https://github.com/zephyrproject-rtos/zephyr/releases/tag/v4.4.2)
+[![Board](https://img.shields.io/badge/board-nucleo__wl55jc-03234B)](https://docs.zephyrproject.org/4.4.0/boards/st/nucleo_wl55jc/doc/nucleo_wl55jc.html)
+[![Codeberg](https://img.shields.io/badge/source-Codeberg-2185D0?logo=codeberg&logoColor=white)](https://codeberg.org/cegea/zephyr-si7021-module)
 
 This repo is intended for learning Zephyr as part of the Embedded Platforms course of the Master IoT from UPM.
 
