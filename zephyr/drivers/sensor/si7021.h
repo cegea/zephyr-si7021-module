@@ -1,8 +1,8 @@
 #ifndef SI7021_H_
 #define SI7021_H_
 
-#include "zephyr/drivers/i2c.h"
 #include <stdint.h>
+#include <zephyr/drivers/i2c.h>
 
 #define SI7021_CMD_MEAS_RH_NOHOLD 0xF5
 #define SI7021_CMD_MEAS_RH_HOLD 0xE5
